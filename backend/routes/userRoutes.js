@@ -8,7 +8,7 @@ import {
   registerUser,
 } from "../controllers/userController.js";
 
-router.post("/", authUser);
+router.post("/auth", authUser);
 router.post("/register", registerUser);
 router.post("/logout", logoutUser);
 
