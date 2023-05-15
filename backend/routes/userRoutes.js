@@ -7,11 +7,16 @@ import {
   logoutUser,
   registerUser,
 } from "../controllers/userController.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 router.post("/auth", authUser);
 router.post("/register", registerUser);
 router.post("/logout", logoutUser);
 
-router.route("/profile").get(getUserProfile).put(updateUserProfile);
+//insert protect middleware for private routes
+router
+  .route("/profile")
+  .get(protect, getUserProfile)
+  .put(protect, updateUserProfile);
 
 export default router;
