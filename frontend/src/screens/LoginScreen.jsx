@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 
 const LoginScreen = () => {
   const {
-    handleSubmit,
     trigger,
     formState: { errors },
   } = useForm();
@@ -17,10 +16,10 @@ const LoginScreen = () => {
 
   return (
     <section className="mx-auto flex w-1/4 flex-col items-center pb-32 pt-24 text-center ">
-      <h1 className="text-3xl mb-3">Sign In</h1>
-      <form onSubmit={handleSubmit} method="POST">
+      <h1 className="mb-3 text-3xl">Sign In</h1>
+      <form onSubmit={onSubmit} method="POST" target="_blank">
         <input
-          type="text"
+          type="email"
           name="email"
           placeholder="Email"
           className={inputStyles}
@@ -32,7 +31,7 @@ const LoginScreen = () => {
           </p>
         )}
         <input
-          type="text"
+          type="password"
           name="password"
           placeholder="Password"
           className={inputStyles}
