@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-
+import Button from "../components/Button";
 const LoginScreen = () => {
   const {
     trigger,
@@ -19,7 +19,7 @@ const LoginScreen = () => {
   return (
     <section className="mx-auto flex w-full flex-col items-center pb-32 pt-24 text-center ">
       <div className="w-1/3">
-        <h1 className="mb-3 text-3xl">Log In</h1>
+        <h1 className="m-5 text-4xl">Log In</h1>
         <form onSubmit={onSubmit} method="POST" target="_blank">
           <input
             type="email"
@@ -50,10 +50,7 @@ const LoginScreen = () => {
                 "Invalid password address"}
             </p>
           )}
-          <input
-            type="submit"
-            className="rounded-lg bg-slate-700 px-5 py-2 text-white"
-          />
+          <input type="submit" className={`${Button} w-full`} />
         </form>
       </div>
       {/* <button>*/}

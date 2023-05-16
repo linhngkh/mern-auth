@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <nav className="h-[10vh]">
       <div
-        className={`${flexBetween} fixed top-0 z-30 mx-auto w-full bg-slate-900 p-6 text-white`}
+        className={`${flexBetween} fixed top-0 z-30 mx-auto w-full bg-slate-900 p-4 text-white`}
       >
         <div className="w-3/4">
           <Link to="/">

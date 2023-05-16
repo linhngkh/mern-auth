@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-
+import Button from "../components/Button";
 const RegisterScreen = () => {
   const [passwordEyes, setPasswordEyes] = useState(false);
 
@@ -35,7 +35,7 @@ const RegisterScreen = () => {
   return (
     <section className="mx-auto flex w-full flex-col items-center pb-32 pt-24 text-center ">
       <div className=" w-1/3">
-        <h1 className="mb-3 text-3xl">Sign Up</h1>
+        <h1 className="m-5 text-4xl">Sign Up</h1>
         <form onSubmit={onSubmit} method="POST" target="_blank" className="">
           <input
             type="email"
@@ -126,17 +126,14 @@ const RegisterScreen = () => {
             </div>
           </div>
 
-          <input
-            type="submit"
-            className="rounded-lg bg-slate-700 px-5 py-2 font-bold text-white"
-          />
+          <input type="submit" className={`${Button} w-full`} />
+          <div className="mt-3">
+            <Link to="/login">
+              Already have an account? <span className="underline">Log In</span>{" "}
+            </Link>
+          </div>
         </form>
         {/* <button>*/}
-        <div className="mt-3">
-          <Link to="/register">
-            New Customer? <span className="underline">Register</span>{" "}
-          </Link>
-        </div>
       </div>
     </section>
   );
