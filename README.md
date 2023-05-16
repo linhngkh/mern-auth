@@ -1,11 +1,12 @@
 ## Learning MERN Authentication
- - BACKEND
+ ### BACKEND
  * JWT Authentication
  * MVC pattern
 
- - FRONTEND
+ ### FRONTEND
  * Redux Toolkit
  * React hook Form with validation
-
- - DATABASE
+ * TailwindCSS
+ 
+ ### DATABASE
  * MongoDB
