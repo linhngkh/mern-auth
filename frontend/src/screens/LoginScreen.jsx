@@ -1,19 +1,47 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
-const LoginScreen = () => {
-  const {
-    trigger,
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../slices/usersApiSlice";
+import { setCredentials } from "../slices/authSlice";
+import { toast } from "react-toastify";
 
+const LoginScreen = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [login, { isLoading }] = useLoginMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/");
+    }
+  }, [navigate, userInfo]);
+
+  const {
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (e) => {
-    const isValid = await trigger();
-    if (!isValid) {
-      e.preventDefault();
+    // const isValid = await trigger();
+    // if (!isValid) {
+    e.preventDefault();
+
+    try {
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate("/");
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
     }
   };
+
   const inputStyles = `w-full mb-5 rounded-lg bg-slate-300 px-5 py-3 `;
 
   return (
@@ -24,6 +52,8 @@ const LoginScreen = () => {
           <input
             type="email"
             name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter Email"
             className={inputStyles}
             {...("email",
@@ -39,6 +69,8 @@ const LoginScreen = () => {
           <input
             type="password"
             name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter Password"
             className={inputStyles}
             {...("password", { required: true, maxLength: 15 })}
