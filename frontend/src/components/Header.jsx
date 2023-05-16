@@ -17,15 +17,21 @@ const Header = () => {
             <h1 className="pl-6 text-2xl">MERN Auth</h1>
           </Link>
         </div>
+
         {isAboveMediumScreen ? (
-          <div className={`${flexBetween} w-1/4 gap-8 text-sm`}>
-            <div className="decoration-none flex items-center justify-normal space-x-5 pr-6 text-white">
+          <div className={`${flexBetween} w-1/4 text-sm`}>
+            <div className="decoration-none flex justify-end gap-4 text-center text-sm font-bold text-white">
               <Link to="/login">
-                Log In <LogInIcon />
+                <div className="flex items-center gap-2 ">
+                  <LogInIcon className="h-6 w-6" />
+                  <p>Log In</p>
+                </div>
               </Link>
               <Link to="/register">
-                Sign Up
-                <LogOutIcon />
+                <div className="flex items-center gap-2">
+                  <LogOutIcon className="h-6 w-6" />
+                  <p> Sign Up</p>
+                </div>
               </Link>
             </div>
           </div>
@@ -44,16 +50,19 @@ const Header = () => {
         <div className="fixed bottom-0 right-0 z-40 h-full w-[300px] bg-slate-900 text-white drop-shadow-xl md:top-16">
           <div className="flex justify-end p-12 ">
             <button onClick={() => setIsMenuToggle(!isMenuToggle)}>
-              <XCircle />
+              <XCircle className="h-6 w-6" />
             </button>
           </div>
-          <div className="ml-[33%] flex flex-col text-2xl">
+          <div className="ml-[33%] flex flex-col  text-2xl">
             <Link to="/login">
-              Log In <LogInIcon />
+              <div className="flex items-center gap-2">
+                <LogInIcon className="h-6 w-6" /> Log In
+              </div>
             </Link>
             <Link to="/register">
-              Sign Up
-              <LogOutIcon />
+              <div className="flex items-center gap-2">
+                <LogOutIcon className="h-6 w-6" /> Sign Up
+              </div>
             </Link>
           </div>
         </div>
