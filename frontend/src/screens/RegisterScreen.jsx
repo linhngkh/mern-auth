@@ -1,131 +1,102 @@
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { setCredentials } from "../slices/authSlice";
+import { useRegisterMutation } from "../slices/usersApiSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+
+import Loader from "../components/Loader";
 import Button from "../components/Button";
+
 const RegisterScreen = () => {
-  const [passwordEyes, setPasswordEyes] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handlePasswordShow = () => {
-    setPasswordEyes(!passwordEyes);
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [confirmPasswordEyes, setConfirmPasswordEyes] = useState(false);
+  const [register, { isLoading }] = useRegisterMutation();
 
-  const handlePasswordConfirm = () => {
-    setConfirmPasswordEyes(!confirmPasswordEyes);
-  };
+  const { userInfo } = useSelector((state) => state.auth);
 
-  const {
-    trigger,
-    register,
-    formState: { errors },
-  } = useForm({
-    mode: "onTouched",
-  });
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/");
+    }
+  }, [navigate, userInfo]);
 
   const onSubmit = async (e) => {
-    const isValid = await trigger();
-    if (!isValid) {
-      e.preventDefault();
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Password do not match");
+    } else {
+      try {
+        const res = await register({ name, email, password }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        navigate("/");
+      } catch (error) {
+        toast.error(error?.data?.message || error.error);
+      }
     }
   };
   const inputStyles = `w-full mb-5 rounded-lg bg-slate-300 px-5 py-3 text-black`;
 
   return (
-    <section className="mx-auto flex w-full flex-col items-center pb-32 pt-24 text-center ">
+    <section className="mx-auto flex w-full flex-col items-center pb-10 pt-10 text-center ">
       <div className=" w-1/3">
-        <h1 className="m-5 text-4xl">Sign Up</h1>
-        <form onSubmit={onSubmit} method="POST" target="_blank" className="">
+        <h1 className="m-2 text-4xl">Sign Up</h1>
+        <form onSubmit={onSubmit}>
+          <label className="flex justify-start">Name</label>
+          <input
+            type="name"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter Name"
+            className={inputStyles}
+          />
+          <label className="flex justify-start">Email Address</label>
           <input
             type="email"
             name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter Email"
             className={inputStyles}
-            {...("email",
-            {
-              required: true,
-            })}
           />
-          {errors.email && (
-            <p className=" text-sm text-red-500">
-              {errors.email.type === "required" && "This field is required"}
-            </p>
-          )}
+          <label className="flex justify-start">Password</label>
           {/* password */}
           <div className="relative">
             {" "}
             <input
-              type={passwordEyes === false ? "password" : "text"}
+              type="password"
               name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter Password"
-              className={`${inputStyles} ${
-                errors.password &&
-                "border-red-500 focus:border-red-500 focus:ring-red-500"
-              }`}
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 15,
-                  message: "Minimum required length is 8",
-                },
-                maxLength: {
-                  value: 15,
-                  message: "Maximum required length is 8",
-                },
-              })}
+              className={inputStyles}
             />
-            {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
-            )}
-            {/* eye section */}
-            <div className="absolute right-5 top-4">
-              {passwordEyes === false ? (
-                <EyeOff onClick={handlePasswordShow} />
-              ) : (
-                <Eye onClick={handlePasswordShow} />
-              )}
-            </div>
           </div>
-
+          <label className="flex justify-start">Confirm Password</label>
           {/* confirm password */}
           <div className="relative">
             {" "}
             <input
-              type={confirmPasswordEyes === false ? "password" : "text"}
+              type="password"
               name="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm Password"
-              className={`${inputStyles} ${
-                errors.confirmPassword &&
-                "border-red-500 focus:border-red-500 focus:ring-red-500"
-              }`}
-              {...register("confirmPassword", {
-                required: "Password is required",
-                minLength: {
-                  value: 8,
-                  message: "Minimum required length is 8",
-                },
-                maxLength: {
-                  value: 15,
-                  message: "Maximum required length is 15",
-                },
-              })}
+              className={inputStyles}
             />
-            {errors.confirmPassword && (
-              <span className="mt-1 text-sm text-red-500">
-                {errors.confirmPassword.message}
-              </span>
-            )}
-            {/* eye section */}
-            <div className="absolute right-5 top-4">
-              {confirmPasswordEyes === false ? (
-                <EyeOff onClick={handlePasswordConfirm} />
-              ) : (
-                <Eye onClick={handlePasswordConfirm} />
-              )}
-            </div>
           </div>
 
+          {/* loading */}
+          {isLoading && <Loader isLoading={isLoading} />}
+
+          {/* <button>*/}
           <input type="submit" className={`${Button} w-full`} />
           <div className="mt-3">
             <Link to="/login">
@@ -133,7 +104,6 @@ const RegisterScreen = () => {
             </Link>
           </div>
         </form>
-        {/* <button>*/}
       </div>
     </section>
   );

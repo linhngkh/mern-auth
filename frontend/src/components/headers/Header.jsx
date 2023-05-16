@@ -11,6 +11,7 @@ const Header = () => {
   const flexBetween = "flex items-center justify-between";
   const isAboveMediumScreen = useMediaQuery("(min-width: 1060px)");
   const [isMenuToggle, setIsMenuToggle] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -26,6 +27,7 @@ const Header = () => {
       console.log(error);
     }
   };
+
   return (
     <nav className="h-[10vh]">
       <div
@@ -47,43 +49,45 @@ const Header = () => {
                       type="button"
                       className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                       id="username"
+                      onClick={() => setIsOpen(!isOpen)}
                     >
                       {userInfo.name}
                       <ChevronDown />
                     </button>
                   </div>
-
-                  <div
-                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="menu-button"
-                    tabIndex="-1"
-                  >
-                    <div className="py-1" role="none">
-                      <Link
-                        href="/profile"
-                        className="block px-4 py-2 text-sm text-gray-700"
-                        role="menuitem"
-                        tabIndex="-1"
-                        id="menu-item-1"
-                      >
-                        Profile
-                      </Link>
-                      {/* log out */}
-                      <form onClick={logoutHandler}>
-                        <button
-                          type="submit"
-                          className="block w-full px-4 py-2 text-left text-sm text-gray-700"
+                  {isOpen && (
+                    <nav
+                      className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                      role="menu"
+                      aria-orientation="vertical"
+                      aria-labelledby="menu-button"
+                      tabIndex="-1"
+                    >
+                      <div className="py-1" role="none">
+                        <Link
+                          href="/profile"
+                          className="block px-4 py-2 text-sm text-gray-700"
                           role="menuitem"
                           tabIndex="-1"
-                          id="menu-item-3"
+                          id="menu-item-1"
                         >
-                          Log out
-                        </button>
-                      </form>
-                    </div>
-                  </div>
+                          Profile
+                        </Link>
+                        {/* log out */}
+                        <form onClick={logoutHandler}>
+                          <button
+                            type="submit"
+                            className="block w-full px-4 py-2 text-left text-sm text-gray-700"
+                            role="menuitem"
+                            tabIndex="-1"
+                            id="menu-item-3"
+                          >
+                            Log out
+                          </button>
+                        </form>
+                      </div>
+                    </nav>
+                  )}
                 </div>
               ) : (
                 <>
