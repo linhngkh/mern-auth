@@ -8,12 +8,14 @@ const Header = () => {
   const isAboveMediumScreen = useMediaQuery("(min-width: 1060px)");
   const [isMenuToggle, setIsMenuToggle] = useState(false);
   return (
-    <nav>
+    <nav className="h-[10vh]">
       <div
         className={`${flexBetween} fixed top-0 z-30 mx-auto w-full bg-slate-900 p-6 text-white`}
       >
         <div className="w-3/4">
-          <h1 className="pl-6 text-2xl">MERN Auth</h1>
+          <Link to="/">
+            <h1 className="pl-6 text-2xl">MERN Auth</h1>
+          </Link>
         </div>
         {isAboveMediumScreen ? (
           <div className={`${flexBetween} w-1/4 gap-8 text-sm`}>
