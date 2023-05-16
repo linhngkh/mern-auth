@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
+import Loader from "../components/Loader";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -29,8 +30,6 @@ const LoginScreen = () => {
   } = useForm();
 
   const onSubmit = async (e) => {
-    // const isValid = await trigger();
-    // if (!isValid) {
     e.preventDefault();
 
     try {
@@ -84,6 +83,8 @@ const LoginScreen = () => {
           )}
           <input type="submit" className={`${Button} w-full`} />
         </form>
+        {/* loading */}
+        {isLoading && <Loader isLoading={isLoading} />}
       </div>
       {/* <button>*/}
       <div className="mt-3">

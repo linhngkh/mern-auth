@@ -1,14 +1,11 @@
-import {
-  LogInIcon,
-  LogOutIcon,
-  Menu,
-  XCircle,
-  ChevronDown,
-} from "lucide-react";
-import useMediaQuery from "../hooks/usemediaQuery";
+import { LogInIcon, LogOutIcon, Menu, ChevronDown } from "lucide-react";
+import useMediaQuery from "../../hooks/usemediaQuery";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import MobileHeader from "./MobileHeader";
+import { useLogoutMutation } from "../../slices/usersApiSlice";
+import { logout } from "../../slices/authSlice";
 
 const Header = () => {
   const flexBetween = "flex items-center justify-between";
@@ -17,6 +14,18 @@ const Header = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [logoutApiCall] = useLogoutMutation();
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <nav className="h-[10vh]">
       <div
@@ -62,7 +71,7 @@ const Header = () => {
                         Profile
                       </Link>
                       {/* log out */}
-                      <form method="POST">
+                      <form onClick={logoutHandler}>
                         <button
                           type="submit"
                           className="block w-full px-4 py-2 text-left text-sm text-gray-700"
@@ -106,25 +115,10 @@ const Header = () => {
       {/* mobile menu modal */}
 
       {!isAboveMediumScreen && isMenuToggle && (
-        <div className="fixed bottom-0 right-0 z-40 h-full w-[300px] bg-slate-900 text-white drop-shadow-xl md:top-16">
-          <div className="flex justify-end p-12 ">
-            <button onClick={() => setIsMenuToggle(!isMenuToggle)}>
-              <XCircle className="h-6 w-6" />
-            </button>
-          </div>
-          <div className="ml-[33%] flex flex-col  text-2xl">
-            <Link to="/login">
-              <div className="flex items-center gap-2">
-                <LogInIcon className="h-6 w-6" /> Log In
-              </div>
-            </Link>
-            <Link to="/register">
-              <div className="flex items-center gap-2">
-                <LogOutIcon className="h-6 w-6" /> Sign Up
-              </div>
-            </Link>
-          </div>
-        </div>
+        <MobileHeader
+          setIsMenuToggle={setIsMenuToggle}
+          isMenuToggle={isMenuToggle}
+        />
       )}
     </nav>
   );
