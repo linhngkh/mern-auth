@@ -65,7 +65,7 @@ const Header = () => {
                     >
                       <div className="py-1" role="none">
                         <Link
-                          href="/profile"
+                          to="/profile"
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-slate-200 "
                           role="menuitem"
                           tabIndex="-1"
