@@ -66,7 +66,7 @@ const Header = () => {
                       <div className="py-1" role="none">
                         <Link
                           href="/profile"
-                          className="block px-4 py-2 text-sm text-gray-700"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-slate-200 "
                           role="menuitem"
                           tabIndex="-1"
                           id="menu-item-1"
@@ -77,7 +77,7 @@ const Header = () => {
                         <form onClick={logoutHandler}>
                           <button
                             type="submit"
-                            className="block w-full px-4 py-2 text-left text-sm text-gray-700"
+                            className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-slate-200 "
                             role="menuitem"
                             tabIndex="-1"
                             id="menu-item-3"

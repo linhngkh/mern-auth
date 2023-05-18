@@ -3,11 +3,12 @@
  ### BACKEND
  * JWT Authentication
  * MVC pattern
-
+  - Public routes: 
+  - Private routes: 
  ### FRONTEND
  * Redux Toolkit
  * React hook Form with validation
  * TailwindCSS
- 
+ * React router dom
  ### DATABASE
  * MongoDB
